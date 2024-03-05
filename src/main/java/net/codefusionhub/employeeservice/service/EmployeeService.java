@@ -1,10 +1,11 @@
 package net.codefusionhub.employeeservice.service;
 
 
-import net.codefusionhub.employeeservice.Dto.EmployeeDto;
+import net.codefusionhub.employeeservice.dto.APIResponseDto;
+import net.codefusionhub.employeeservice.dto.EmployeeDto;
 
 public interface EmployeeService {
     EmployeeDto saveEmployee(EmployeeDto employeeDto);
 
-    EmployeeDto getEmployee(Long employeeId);
+    APIResponseDto getEmployee(Long employeeId);
 }

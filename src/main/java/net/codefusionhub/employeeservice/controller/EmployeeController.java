@@ -1,8 +1,8 @@
 package net.codefusionhub.employeeservice.controller;
 
 import lombok.AllArgsConstructor;
-import net.codefusionhub.employeeservice.Dto.EmployeeDto;
-import net.codefusionhub.employeeservice.entity.Employee;
+import net.codefusionhub.employeeservice.dto.APIResponseDto;
+import net.codefusionhub.employeeservice.dto.EmployeeDto;
 import net.codefusionhub.employeeservice.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,8 @@ public class EmployeeController {
     }
 
     @GetMapping("{employee-id}")
-    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("employee-id") Long employeeId){
-       EmployeeDto employeeDto = employeeService.getEmployee(employeeId);
+    public ResponseEntity<APIResponseDto> getEmployee(@PathVariable("employee-id") Long employeeId){
+        APIResponseDto employeeDto = employeeService.getEmployee(employeeId);
 
        return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
