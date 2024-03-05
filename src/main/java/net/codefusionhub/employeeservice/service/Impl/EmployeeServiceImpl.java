@@ -6,6 +6,7 @@ import net.codefusionhub.employeeservice.dto.DepartmentDto;
 import net.codefusionhub.employeeservice.dto.EmployeeDto;
 import net.codefusionhub.employeeservice.entity.Employee;
 import net.codefusionhub.employeeservice.repository.EmployeeRepository;
+import net.codefusionhub.employeeservice.service.APIClient;
 import net.codefusionhub.employeeservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
 //    private RestTemplate restTemplate;
-    private WebClient webClient;
+//    private WebClient webClient;
+    private APIClient apiClient;
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
@@ -48,11 +50,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> employeeObj = employeeRepository.findById(employeeId);
         Employee employee = employeeObj.get();
 
-        DepartmentDto departmentDto = webClient.get()
-                .uri("http://localhost:8080/api/departments/" +employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+        DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
+//        DepartmentDto departmentDto = webClient.get()
+//                .uri("http://localhost:8080/api/departments/" +employee.getDepartmentCode())
+//                .retrieve()
+//                .bodyToMono(DepartmentDto.class)
+//                .block();
 
 //        ResponseEntity<DepartmentDto>  responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/"
 //                        +employee.getDepartmentCode(), DepartmentDto.class);
