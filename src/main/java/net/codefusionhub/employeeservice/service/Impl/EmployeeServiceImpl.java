@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import net.codefusionhub.employeeservice.dto.APIResponseDto;
 import net.codefusionhub.employeeservice.dto.DepartmentDto;
 import net.codefusionhub.employeeservice.dto.EmployeeDto;
+import net.codefusionhub.employeeservice.dto.OrganizationDto;
 import net.codefusionhub.employeeservice.entity.Employee;
 import net.codefusionhub.employeeservice.mapper.EmployeeMapper;
 import net.codefusionhub.employeeservice.repository.EmployeeRepository;
@@ -54,6 +55,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .bodyToMono(DepartmentDto.class)
                 .block();
 
+        OrganizationDto organizationDto = webClient.get()
+                .uri("http://localhost:8083/api/organizations/" + employee.getOrganizationCode())
+                .retrieve()
+                .bodyToMono(OrganizationDto.class)
+                .block();
+
 //        ResponseEntity<DepartmentDto>  responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/"
 //                        +employee.getDepartmentCode(), DepartmentDto.class);
 //        DepartmentDto departmentDto = responseEntity.getBody();
@@ -62,6 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         APIResponseDto apiResponseDto = new APIResponseDto();
         apiResponseDto.setEmployee(employeeDto);
         apiResponseDto.setDepartment(departmentDto);
+        apiResponseDto.setOrganization(organizationDto);
 
         return apiResponseDto;
     }
