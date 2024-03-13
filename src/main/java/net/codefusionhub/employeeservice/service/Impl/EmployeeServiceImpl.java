@@ -27,8 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     private EmployeeRepository employeeRepository;
 
-//    private RestTemplate restTemplate;
-    private WebClient webClient;
+    private RestTemplate restTemplate;
+//    private WebClient webClient;
 //    private APIClient apiClient;
 
     @Override
@@ -49,21 +49,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeObj.get();
 
 //        DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
-        DepartmentDto departmentDto = webClient.get()
-                .uri("http://localhost:8080/api/departments/" +employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+//        DepartmentDto departmentDto = webClient.get()
+//                .uri("http://localhost:8085/api/departments/" +employee.getDepartmentCode())
+//                .retrieve()
+//                .bodyToMono(DepartmentDto.class)
+//                .block();
 
-        OrganizationDto organizationDto = webClient.get()
-                .uri("http://localhost:8083/api/organizations/" + employee.getOrganizationCode())
-                .retrieve()
-                .bodyToMono(OrganizationDto.class)
-                .block();
+//        OrganizationDto organizationDto = webClient.get()
+//                .uri("http://localhost:8083/api/organizations/" + employee.getOrganizationCode())
+//                .retrieve()
+//                .bodyToMono(OrganizationDto.class)
+//                .block();
 
-//        ResponseEntity<DepartmentDto>  responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/"
-//                        +employee.getDepartmentCode(), DepartmentDto.class);
-//        DepartmentDto departmentDto = responseEntity.getBody();
+        ResponseEntity<DepartmentDto>  responseEntity = restTemplate.getForEntity("http://localhost:9191/api/departments/"
+                        +employee.getDepartmentCode(), DepartmentDto.class);
+        DepartmentDto departmentDto = responseEntity.getBody();
+
+        ResponseEntity<OrganizationDto>  organizations = restTemplate.getForEntity("http://localhost:9191/api/organizations/"
+                +employee.getOrganizationCode(), OrganizationDto.class);
+        OrganizationDto organizationDto = organizations.getBody();
 
         EmployeeDto employeeDto = EmployeeMapper.mapToEmployee(employee);
         APIResponseDto apiResponseDto = new APIResponseDto();
